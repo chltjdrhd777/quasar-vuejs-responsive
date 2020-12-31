@@ -16,7 +16,8 @@
     "quasar": "^1.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0"
+    "@quasar/app": "^2.0.0",
+    "uuid": "^8.3.2"
   },
   "browserslist": [
     "ie >= 11",
