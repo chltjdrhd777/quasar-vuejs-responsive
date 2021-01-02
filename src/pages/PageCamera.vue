@@ -2,13 +2,26 @@
   <q-page class="constrain-2 q-pa-md">
     <div class="camera-frame q-pa-md">
       <img
-        class="full-width "
         src="https://i.pinimg.com/originals/8e/0f/8e/8e0f8ef968de516dadb9caaa607c2554.jpg"
         alt="img"
+        class="full-width"
       />
     </div>
     <div class="text-center q-pa-md">
       <q-btn round color="grey-10" icon="eva-camera" />
+
+      <q-file
+        outlined
+        accept="image/*"
+        v-model="imageUpload"
+        @input="imageFallBack"
+        class="q-mt-md"
+        label="choose your image"
+      >
+        <template v-slot:prepend>
+          <q-icon name="eva-attach-2-outline" />
+        </template>
+      </q-file>
 
       <div class="row justify-center q-ma-md">
         <q-input
@@ -47,6 +60,7 @@
 
 <script>
 import { uid } from "quasar";
+import { watch } from "fs";
 export default {
   name: "PageCamera",
 
@@ -58,8 +72,26 @@ export default {
         location: "",
         photo: null,
         date: Date.now()
-      }
+      },
+
+      imageUpload: []
     };
+  },
+
+  methods: {
+    initCamera: () => {
+      console.log(
+        "mounted() is working like useEffect(). when the component is mounted, it works"
+      );
+    },
+
+    imageFallBack(file) {
+      this.post.photo = file;
+    }
+  },
+
+  mounted() {
+    this.initCamera();
   }
 };
 </script>
