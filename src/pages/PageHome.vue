@@ -1,7 +1,7 @@
 <template>
   <q-page class="constrain q-pa-md">
     <section class="row q-col-gutter-lg">
-      <article class="col-8">
+      <article class="col-12 col-sm-8">
         <q-card
           v-for="post in posts"
           :key="post.id"
@@ -36,7 +36,25 @@
           </q-card-section>
         </q-card>
       </article>
-      <article class="col-4">test profile</article>
+
+      <article class="col-4 large-screen-only">
+        <q-item class="fixed">
+          <q-item-section avatar>
+            <q-avatar size="3rem">
+              <img
+                src="https://i.pinimg.com/originals/8e/0f/8e/8e0f8ef968de516dadb9caaa607c2554.jpg"
+              />
+            </q-avatar>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>test cute</q-item-label>
+            <q-item-label caption>
+              adroable
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </article>
     </section>
   </q-page>
 </template>
