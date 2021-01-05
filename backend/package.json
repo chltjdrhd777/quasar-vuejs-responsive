@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": " nodemon index.js",
+    "deploy": "heroku builds:create -a clonegram-test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "firebase-admin": "^9.4.2",
+    "global": "^4.4.0",
+    "heroku": "^7.47.6",
+    "nodemon": "^2.0.6",
+    "yarn": "^1.22.10"
+  }
+}
