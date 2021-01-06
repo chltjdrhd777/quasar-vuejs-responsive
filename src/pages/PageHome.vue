@@ -2,39 +2,74 @@
   <q-page class="constrain q-pa-md">
     <section class="row q-col-gutter-lg">
       <article class="col-12 col-sm-8">
-        <q-card
-          v-for="post in posts"
-          :key="post.id"
-          class="card-post q-mb-md"
-          flat
-          bordered
-        >
-          <q-item>
-            <q-item-section avatar>
-              <q-avatar>
-                <img
-                  src="https://i.pinimg.com/originals/8e/0f/8e/8e0f8ef968de516dadb9caaa607c2554.jpg"
-                />
-              </q-avatar>
-            </q-item-section>
+        <template v-if="!loadingCheck">
+          <q-card
+            v-for="post in posts"
+            :key="post.id"
+            class="card-post q-mb-md"
+            flat
+            bordered
+          >
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar>
+                  <img
+                    src="https://i.pinimg.com/originals/8e/0f/8e/8e0f8ef968de516dadb9caaa607c2554.jpg"
+                  />
+                </q-avatar>
+              </q-item-section>
 
-            <q-item-section>
-              <q-item-label>{{ post.caption }}</q-item-label>
-              <q-item-label caption>
-                adroable
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+              <q-item-section>
+                <q-item-label>{{ post.caption }}</q-item-label>
+                <q-item-label caption>
+                  adroable
+                </q-item-label>
+              </q-item-section>
+            </q-item>
 
-          <q-separator />
+            <q-separator />
 
-          <q-img :src="post.imgUrl" />
+            <q-img :src="post.imgUrl" />
 
-          <q-card-section>
-            <div>{{ post.caption }}</div>
-            <div class="text-caption text-grey">{{ makeDate(post.date) }}</div>
-          </q-card-section>
-        </q-card>
+            <q-card-section>
+              <div>{{ post.caption }}</div>
+              <div class="text-caption text-grey">
+                {{ makeDate(post.date) }}
+              </div>
+            </q-card-section>
+          </q-card>
+        </template>
+
+        <template v-else>
+          <q-card flat bordered>
+            <q-item>
+              <q-item-section avatar>
+                <q-skeleton type="QAvatar" animation="fade" size="40px" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>
+                  <q-skeleton type="text" animation="fade" />
+                </q-item-label>
+                <q-item-label caption>
+                  <q-skeleton type="text" animation="fade" />
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-skeleton height="200px" square animation="fade" />
+
+            <q-card-section>
+              <q-skeleton type="text" class="text-subtitle2" animation="fade" />
+              <q-skeleton
+                type="text"
+                width="50%"
+                class="text-subtitle2"
+                animation="fade"
+              />
+            </q-card-section>
+          </q-card>
+        </template>
       </article>
 
       <article class="col-4 large-screen-only">
@@ -84,15 +119,40 @@ export default {
         testDataMaker("cute1", "cute plannet1", testUrl),
         testDataMaker("cute2", "cute plannet2", testUrl),
         testDataMaker("cute3", "cute plannet3", testUrl)
-      ]
+      ],
+
+      testCommingData: [],
+      loadingCheck: false
     };
   },
 
   //? methods part
   methods: {
-    makeDate: value => {
+    makeDate(value) {
       return date.formatDate(value, "MMMM D h: mm A");
+    },
+
+    async getPosts() {
+      this.loadingCheck = true;
+      await this.$axios
+        .get(`${process.env.API}/posts`)
+        .then(res => {
+          this.testCommingData = res.data;
+          this.loadingCheck = false;
+          console.log(this.testCommingData);
+        })
+        .catch(err => {
+          this.$q.dialog({
+            title: "Error",
+            message: "Could not find any data"
+          });
+          this.loadingCheck = false;
+        });
     }
+  },
+
+  created() {
+    this.getPosts();
   }
 };
 </script>

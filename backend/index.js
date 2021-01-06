@@ -1,4 +1,5 @@
 //? dependecies
+const { response } = require("express");
 const express = require("express");
 const admin = require("firebase-admin");
 const serviceAccount = require("./serviceKey.json");
@@ -16,6 +17,7 @@ const db = admin.firestore();
 
 //? end point
 app.get("/posts", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
   let posts = [];
 
   db.collection("posts")
@@ -27,6 +29,11 @@ app.get("/posts", (req, res) => {
 
       res.send(posts);
     });
+});
+
+app.post("/createPost", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.send(req.headers);
 });
 //? ////////
 

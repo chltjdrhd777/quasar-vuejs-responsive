@@ -64,7 +64,13 @@
       </div>
 
       <div class="row justify-center q-ma-md">
-        <q-btn unelevated rounded color="primary" label="Post your image" />
+        <q-btn
+          unelevated
+          rounded
+          color="primary"
+          label="Post your image"
+          @click="addPost"
+        />
       </div>
     </div>
   </q-page>
@@ -172,6 +178,24 @@ export default {
         message: "Could not find your location"
       });
       this.loadingState = false;
+    },
+
+    addPost() {
+      let formData = new FormData();
+      formData.append("id", this.post.id);
+      formData.append("caption", this.post.caption);
+      formData.append("location", this.post.location);
+      formData.append("date", this.post.date);
+      formData.append("file", this.post.photo, this.post.id + ".png");
+
+      this.$axios
+        .post(`${process.env.API}/createPost`, formData)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
 
